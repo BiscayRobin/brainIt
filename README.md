@@ -2,11 +2,23 @@
 
 Brainfuck interpreter.
 
+## Install
+
+```bash
+make install
+```
+
+## Uninstall
+
+```bash
+make uninstall
+```
+
 ## usage
 
 ```bash
-make
-bin/brainIt path/to/source.bf
+brainIt #give usage
+brainIt path/to/source.bg #Interpret source.bg
 ```
 
 ## sources
