@@ -12,6 +12,8 @@ BINDIR		= bin
 SOURCES := $(wildcard $(SRCDIR)/*.c)
 OBJECTS := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
+INSTALLDIR = /usr/local/bin
+
 RM = rm -f
 
 $(BINDIR)/$(TARGET): $(OBJECTS)
@@ -19,6 +21,14 @@ $(BINDIR)/$(TARGET): $(OBJECTS)
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	$(CC) $(CCFLAGS) -c $< -o $@
+
+.PHONY: install
+install: $(BINDIR)/$(TARGET)
+	cp $(BINDIR)/$(TARGET) $(INSTALLDIR)/
+
+.PHONY: uninstall
+uninstall:
+	$(RM) $(INSTALLDIR)/$(TARGET)
 
 .PHONY: clean
 clean:
