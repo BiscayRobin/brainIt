@@ -7,16 +7,7 @@
 
 int main(int argc, char **argv)
 {
-
-    char *prog_name = argv[0];
-
     int error_code = 0;
-
-    if (argc != 2)
-    {
-        fprintf(stderr, "usage: ./%s source.bf", prog_name);
-        return EXIT_FAILURE;
-    }
 
     char *source_path = argv[1];
     char *source_code;
