@@ -1,45 +1,20 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <errno.h>
 #include <string.h>
 
 #include "bf_runtime.h"
+#include "arguments.h"
 
 int main(int argc, char **argv)
 {
     int error_code = 0;
 
-    char *source_path = argv[1];
+    args_t arguments = {0};
+    argument_parse(argc, argv, &arguments);
+
     char *source_code;
-    size_t source_length;
 
-    FILE *file_stream = fopen(source_path, "rb");
-
-    if (!file_stream)
-    {
-        fprintf(stderr, "%s: %s\n", source_path, strerror(errno));
-        return EXIT_FAILURE;
-    }
-
-    fseek(file_stream, 0, SEEK_END);
-    source_length = ftell(file_stream);
-    fseek(file_stream, 0, SEEK_SET);
-
-    if (!(source_code = malloc(source_length)))
-    {
-        fprintf(stderr, "Fatal: Could not allocate %zu bytes\n", source_length);
-        return EXIT_FAILURE;
-    }
-
-    fread(source_code, 1, source_length, file_stream);
-
-    if ((error_code = ferror(file_stream)))
-    {
-        fprintf(stderr, "%s: %s\n", source_path, strerror(error_code));
-        return EXIT_FAILURE;
-    }
-
-    fclose(file_stream);
+    size_t source_length = file_to_buffer(arguments.in_file, &source_code);
 
     if ((error_code = bf_run(source_code, source_length)))
     {
