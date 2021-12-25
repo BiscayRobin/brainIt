@@ -4,6 +4,7 @@
 
 #include "bf_runtime.h"
 #include "arguments.h"
+#include "utils.h"
 
 int main(int argc, char **argv)
 {
@@ -26,6 +27,9 @@ int main(int argc, char **argv)
             break;
         case BF_STDOUT_ERROR:
             error_message = "could not write to stdout";
+            break;
+        default:
+            error_message = "unknown error";
             break;
         }
         fprintf(stderr, "Error(%d): %s", error_code, error_message);

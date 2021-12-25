@@ -1,15 +1,16 @@
 #include "utils.h"
 #include <stdlib.h>
 #include <errno.h>
+#include <string.h>
 
-void file_to_buffer(char *file_path, char **buffer_addr)
+size_t file_to_buffer(char *file_path, char **buffer_addr)
 {
     FILE *file_stream = fopen(file_path, "rb");
 
     if (!file_stream)
     {
         fprintf(stderr, "%s: %s\n", file_path, strerror(errno));
-        return EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
 
     size_t source_length;
