@@ -2,7 +2,14 @@ MAKEFLAGS	+= -j
 
 TARGET		= brainIt
 
-CC			= clang
+ifeq ($(shell $(CC) -v 2>&1 | grep -c "clang version"), 1)
+COMPILER := clang
+else
+COMPILER := gcc
+endif
+export COMPILER
+
+CC			= $(COMPILER)
 CCFLAGS		= -std=c17 -ggdb -Wall -Wextra -pedantic -Os -O2
 
 SRCDIR		= src
