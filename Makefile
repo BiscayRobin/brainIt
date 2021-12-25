@@ -2,7 +2,14 @@ MAKEFLAGS	+= -j
 
 TARGET		= brainIt
 
-CC			= clang
+ifeq ($(shell $(CC) -v 2>&1 | grep -c "clang version"), 1)
+COMPILER := clang
+else
+COMPILER := gcc
+endif
+export COMPILER
+
+CC			= $(COMPILER)
 CCFLAGS		= -std=c17 -ggdb -Wall -Wextra -pedantic -Os -O2
 
 SRCDIR		= src
@@ -17,9 +24,11 @@ INSTALLDIR = /usr/local/bin
 RM = rm -f
 
 $(BINDIR)/$(TARGET): $(OBJECTS)
+	mkdir -p $(BINDIR)
 	$(CC) -o $@ $(CCFLAGS) $(OBJECTS)
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
+	mkdir -p $(OBJDIR)
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 .PHONY: install
