@@ -24,9 +24,11 @@ INSTALLDIR = /usr/local/bin
 RM = rm -f
 
 $(BINDIR)/$(TARGET): $(OBJECTS)
+	mkdir -p $(BINDIR)
 	$(CC) -o $@ $(CCFLAGS) $(OBJECTS)
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
+	mkdir -p $(OBJDIR)
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 .PHONY: install
